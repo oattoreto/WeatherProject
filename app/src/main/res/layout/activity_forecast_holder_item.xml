@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.example.weathermvvm.model.Hourly" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_16">
+
+        <ImageView
+            android:id="@+id/image_view_weather"
+            android:layout_width="@dimen/icon_weather"
+            android:layout_height="@dimen/icon_weather"
+            android:scaleType="fitCenter"
+            app:imageUrl="@{item.weather.get(0).icon}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/text_view_weather"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_16"
+            android:gravity="start"
+            android:text="@{item != null ? (String.valueOf(item.temp) + `°`) : ``}"
+            android:textSize="@dimen/text_36"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/text_view_date"
+            app:layout_constraintStart_toEndOf="@+id/image_view_weather"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="35°" />
+
+        <TextView
+            android:id="@+id/text_view_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:date="@{item.dt}"
+            app:layout_constraintBottom_toBottomOf="@+id/text_view_weather"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_view_weather"
+            tools:text="TextView" />
+
+        <TextView
+            android:id="@+id/text_view_feel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_16"
+            android:text="@{`Feels like : ` + String.valueOf(item.feelsLike) + `°`}"
+            app:layout_constraintEnd_toStartOf="@+id/text_view_humidity"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_weather"
+            tools:text="Feel" />
+
+        <TextView
+            android:id="@+id/text_view_humidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_16"
+            android:text="@{item != null ? (`Humidity: ` + String.valueOf(item.humidity) + `%`) : ``}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/text_view_feel"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_weather"
+            tools:text="Hum" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

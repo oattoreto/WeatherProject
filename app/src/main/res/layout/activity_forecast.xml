@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.example.weathermvvm.page.forecast.ForecastWeatherViewModel" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/space_16">
+
+            <ImageView
+                android:id="@+id/image_view_weather"
+                android:layout_width="@dimen/icon_weather"
+                android:layout_height="@dimen/icon_weather"
+                android:layout_marginEnd="@dimen/space_16"
+                android:scaleType="fitCenter"
+                app:imageUrl="@{vm.currentWeather.weather.get(0).icon}"
+                tools:src="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/text_view_weather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/space_16"
+                android:text="@{vm.currentWeather != null ? (String.valueOf(vm.currentWeather.main.temp) + `°`) : ``}"
+                android:textAlignment="center"
+                android:textColor="#fff"
+                android:textSize="@dimen/text_36"
+                android:textStyle="bold"
+                tools:text="35°" />
+
+            <TextView
+                android:id="@+id/text_view_city_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/space_16"
+                android:text="@{vm.currentWeather != null &amp;&amp; !vm.currentWeather.name.empty ? (vm.currentWeather.name +  `, ` + vm.currentWeather.sys.country) : ``}"
+                android:textColor="#fff"
+                android:textSize="@dimen/text_18"
+                android:textStyle="bold"
+                tools:text="London" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    </LinearLayout>
+</layout>

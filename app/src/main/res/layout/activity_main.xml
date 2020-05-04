@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.example.weathermvvm.page.home.CurrentWeatherViewModel" />
+
+        <variable
+            name="page"
+            type="com.example.weathermvvm.page.home.MainActivity" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".page.home.MainActivity">
+
+        <EditText
+            android:id="@+id/editText_city"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_16"
+            android:layout_marginTop="@dimen/space_16"
+            android:layout_marginEnd="@dimen/space_16"
+            android:hint="@string/home_text_view_hint_search"
+            android:inputType="textPersonName"
+            android:text="@={vm.searchCity}"
+            app:layout_constraintEnd_toStartOf="@+id/button_search"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_16"
+            android:layout_marginEnd="@dimen/space_16"
+            android:background="@drawable/selector_roundless_accent_dark"
+            android:onClick="@{() -> vm.loadService()}"
+            android:text="@string/home_button_search"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_view_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            android:text="@{vm.error}"
+            android:visibility="@{vm.error != null &amp;&amp; vm.error.trim().length() > 0 ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText_city"
+            tools:text="Error" />
+
+        <TextView
+            android:id="@+id/button_celsius"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_16"
+            android:onClick="@{() -> vm.setMetricCelsius()}"
+            android:padding="@dimen/space_8"
+            android:text="@string/home_text_view_celsius"
+            android:textAlignment="center"
+            android:textColor="@color/selector_color_grey_primarydark"
+            android:textSize="@dimen/text_14"
+            android:textStyle="bold"
+            android:visibility="@{vm.currentWeather != null ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toStartOf="@+id/pine"
+            app:layout_constraintTop_toBottomOf="@+id/editText_city"
+            app:selected="@{vm.units == `metric` || vm.units == null}" />
+
+        <TextView
+            android:id="@+id/pine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_16"
+            android:padding="@dimen/space_8"
+            android:text="@string/home_text_view_pine"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_14"
+            android:textStyle="bold"
+            android:visibility="@{vm.currentWeather != null ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button_fahrenheit"
+            app:layout_constraintTop_toBottomOf="@+id/editText_city" />
+
+
+        <TextView
+            android:id="@+id/button_fahrenheit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_16"
+            android:layout_marginEnd="@dimen/space_24"
+            android:onClick="@{() -> vm.setMetricFahrenheit()}"
+            android:padding="@dimen/space_8"
+            android:text="@string/home_text_view_fahrenheit"
+            android:textAlignment="center"
+            android:textColor="@color/selector_color_grey_primarydark"
+            android:textSize="@dimen/text_14"
+            android:textStyle="bold"
+            android:visibility="@{vm.currentWeather != null ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText_city"
+            app:selected="@{vm.units == `imperial`}" />
+
+        <TextView
+            android:id="@+id/text_view_city_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_16"
+            android:layout_marginTop="@dimen/space_24"
+            android:layout_marginEnd="@dimen/space_16"
+            android:text="@{vm.currentWeather != null &amp;&amp; !vm.currentWeather.name.empty ? (vm.currentWeather.name +  `, ` + vm.currentWeather.sys.country) : ``}"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_18"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_fahrenheit"
+            tools:text="London" />
+
+        <TextView
+            android:id="@+id/text_view_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            app:date="@{vm.currentWeather.dt}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_city_name"
+            tools:text="25/01/89, 14:00" />
+
+        <TextView
+            android:id="@+id/text_view_weather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_24"
+            android:text="@{vm.currentWeather != null ? (String.valueOf(vm.currentWeather.main.temp) + `°`) : ``}"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_36"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_date"
+            tools:text="35°" />
+
+        <ImageView
+            android:id="@+id/image_view_weather"
+            android:layout_width="@dimen/icon_weather"
+            android:layout_height="@dimen/icon_weather"
+            android:layout_marginEnd="@dimen/space_16"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitCenter"
+            app:imageUrl="@{vm.currentWeather.weather.get(0).icon}"
+            app:layout_constraintBottom_toBottomOf="@+id/text_view_weather"
+            app:layout_constraintEnd_toStartOf="@+id/text_view_weather"
+            app:layout_constraintTop_toTopOf="@+id/text_view_weather"
+            tools:src="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/text_view_humidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_24"
+            android:text="@{vm.currentWeather != null ? (`Humidity: ` + String.valueOf(vm.currentWeather.main.humidity) + `%`) : ``}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_weather"
+            tools:text="TextView" />
+
+        <TextView
+            android:id="@+id/text_view_feel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            android:text="@{vm.currentWeather != null ? (String.valueOf(vm.currentWeather.main.tempMin)+ `°/` + String.valueOf(vm.currentWeather.main.tempMax) + `° Feels like : ` + String.valueOf(vm.currentWeather.main.feels_like) + `°`) : ``}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_humidity"
+            tools:text="TextView" />
+
+        <TextView
+            android:id="@+id/text_view_overcast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            android:text="@{vm.currentWeather.weather.get(0).description}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_feel"
+            tools:text="TextView" />
+
+        <TextView
+            android:id="@+id/text_view_sunrise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            app:date="@{vm.currentWeather.sys.sunrise}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_overcast"
+            app:text="@{`Sunrise: `}"
+            tools:text="TextView" />
+
+        <TextView
+            android:id="@+id/text_view_sunset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            app:date="@{vm.currentWeather.sys.sunset}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_sunrise"
+            app:text="@{`Sunset: `}"
+            tools:text="TextView" />
+
+        <Button
+            android:id="@+id/button_forecast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_24"
+            android:background="@drawable/selector_roundless_accent_dark"
+            android:onClick="@{(v) -> page.intentForecast()}"
+            android:paddingStart="@dimen/space_16"
+            android:paddingEnd="@dimen/space_16"
+            android:text="@string/home_button_forecast"
+            android:textColor="#FFFFFF"
+            android:visibility="@{vm.currentWeather != null ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_sunset" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

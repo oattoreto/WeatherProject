@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Weather</string>
+
+    <string name="home_text_view_hint_search">City</string>
+    <string name="home_button_search">Search</string>
+    <string name="home_text_view_celsius">Celsius</string>
+    <string name="home_text_view_fahrenheit">Fahrenheit</string>
+    <string name="home_button_forecast">Whole-Day-Forecast</string>
+    <string name="home_text_view_pine">|</string>
+
+</resources>
